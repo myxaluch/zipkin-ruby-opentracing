@@ -30,8 +30,11 @@ module Zipkin
     private
 
     def emit_batch(spans)
+      @logger.info('Send tracing result')
       return if spans.empty?
 
+      @logger.info(spans.to_s)
+      @logger.info(@spans_uri.host)
       http = Net::HTTP.new(@spans_uri.host, @spans_uri.port)
       http.use_ssl = @spans_uri.scheme == 'https'
       request = Net::HTTP::Post.new(
